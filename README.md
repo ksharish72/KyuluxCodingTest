@@ -53,3 +53,12 @@ UI Design to be self explanatory.
 
 3. Modal Dialog View
 ![Alt text](Screenshots/ViewData.JPG "View Data")
+
+4. Pagination feature
+![Alt text](Screenshots/Pagination.JPG "Pagination")
+
+5. Column Sorting feature 
+![Alt text](Screenshots/Sorting.JPG "Column sorting")
+
+6. Search Bar feature 
+![Alt text](Screenshots/SearchBar.JPG "Search Bar")

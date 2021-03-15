@@ -5,7 +5,9 @@ import axios from "axios";
 import { Button, Dialog, DialogTitle } from "@material-ui/core";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import paginationFactory from "react-bootstrap-table2-paginator";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
+const { SearchBar } = Search;
 class DrugTable extends React.Component {
   constructor(props) {
     super(props);
@@ -51,24 +53,12 @@ class DrugTable extends React.Component {
             text: dataFieldCombined,
             headerStyle: (colum, colIndex) => {
               return {
-                width: "150px",
+                width: "250px",
                 textAlign: "center",
                 wordBreak: "break-all",
               };
             },
             formatter: (cell) => {
-              if (Array.isArray(cell)) {
-                console.log(cell);
-                return (
-                  <Button
-                    onClick={(e) => this.viewData(e, cell)}
-                    variant="contained"
-                    color="primary"
-                  >
-                    View Data
-                  </Button>
-                );
-              }
               return cell;
             },
           };
@@ -81,7 +71,7 @@ class DrugTable extends React.Component {
           sort: !Array.isArray(maxKeyObj[key]) && true,
           headerStyle: (colum, colIndex) => {
             return {
-              width: "150px",
+              width: "250px",
               textAlign: "center",
               wordBreak: "break-all",
             };
@@ -114,10 +104,10 @@ class DrugTable extends React.Component {
       if (typeof obj === "object") {
         obj["key"] = Math.floor(1000 + Math.random() * 9000);
       } else if (typeof obj === "string") {
-          list[i] = {
-              key : Math.floor(1000 + Math.random() * 9000),
-              value :  obj
-          }
+        list[i] = {
+          key: Math.floor(1000 + Math.random() * 9000),
+          value: obj,
+        };
       }
     }
   }
@@ -142,18 +132,39 @@ class DrugTable extends React.Component {
     });
   }
   renderTable(results, columns) {
-    console.log(results, columns);
     const keyColumn = columns.length > 0 ? "key" : null;
     return (
       <div>
-        {results.length > 0 && (
-          <BootstrapTable
-            keyField={keyColumn}
-            data={results}
-            columns={columns}
-            pagination={paginationFactory()}
-          />
-        )}
+        <ToolkitProvider
+          keyField={keyColumn}
+          data={results}
+          columns={columns}
+          search
+        >
+          {(props) => (
+            <div>
+              {results.length > 0 && (
+                <div>
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      width: "-webkit-fill-available",
+                    }}
+                  >
+                    <h3>Search by keyword</h3>
+                    <SearchBar {...props.searchProps} />
+                  </div>
+                  <hr />
+
+                  <BootstrapTable
+                    pagination={paginationFactory()}
+                    {...props.baseProps}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </ToolkitProvider>
       </div>
     );
   }
@@ -194,7 +205,6 @@ class DrugTable extends React.Component {
           open={open}
         >
           <DialogTitle id="simple-dialog-title">
-            Data
             <img
               src="https://d30y9cdsu7xlg0.cloudfront.net/png/53504-200.png"
               onClick={this.handleClose}

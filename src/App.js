@@ -10,11 +10,13 @@ class App extends React.Component {
     super(props);
     this.state = {
       loginState: false,
+      profileObj: null,
     };
   }
-  handleLogin = (loginState) => {
+  handleLogin = (loginState, profileObj) => {
     this.setState({
       loginState: loginState,
+      profileObj: profileObj,
     });
   };
   render() {
@@ -22,7 +24,12 @@ class App extends React.Component {
       <div className="App">
         {this.state.loginState ? (
           <div>
-            <Logout handleLogin={this.handleLogin}/>
+            <div style={{ display: "inline-flex", height: "50px" }}>
+              <img src={this.state.profileObj.imageUrl} />
+              <h3>Welcome {this.state.profileObj.name}!</h3>
+
+              <Logout handleLogin={this.handleLogin} />
+            </div>
             <DrugTable />
           </div>
         ) : (

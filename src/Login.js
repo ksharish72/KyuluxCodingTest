@@ -16,7 +16,7 @@ function Login(props) {
     );
     refreshTokenSetup(res);
     console.log(props)
-    props.handleLogin(true);
+    props.handleLogin(true, res.profileObj);
   };
 
   const onFailure = (res) => {
